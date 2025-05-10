@@ -63,6 +63,41 @@ SELECT * FROM trigger_test;
 
 # Veamos otro ejemplo.
 
+DELIMITER $$
+CREATE
+	TRIGGER my_trigger2 BEFORE INSERT
+    ON employee
+    FOR EACH ROW BEGIN
+		IF NEW.sex = 'M' THEN
+			INSERT INTO trigger_test VALUES('Se añadió un empleado hombre');
+		ELSEIF NEW.sex = 'F' THEN
+			INSERT INTO trigger_test VALUES('Se añadió una empleada mujer');
+		ELSE
+			INSERT INTO trigger_test VALUES('Se añadió otro empleado');
+		END IF;
+	END$$
+DELIMITER ;
+
+INSERT INTO employee
+VALUES(111, 'Pam', 'Beesly', '1988-02-19', 'F', 69000, 106, 3);
+
+SELECT * FROM trigger_test;
+
+# Notemos que como este ultimo trigger se efectúa cuando agregamos un empleado
+# tambien se activa el trigger que definimos anteriormente
+
+# Podemos utilizar AFETER/BEFORE y tambien INSERT/UPDATE/DELETE asi le decimos
+# al trigger despues o antes de que accion queremos que se efectue
+
+
+
+
+
+
+
+
+
+
 
 
 
